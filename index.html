@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>나만의 캐러셀 스튜디오 (Step 3)</title>
+  <title>나만의 캐러셀 스튜디오 (Step 3 완정형)</title>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
   <style>
@@ -107,7 +107,7 @@
 <body>
 
 <header>
-  <h1>🥔 나만의 캐러셀 스튜디오 (Step 3: 인스타 URL 로더 통합)</h1>
+  <h1>🥔 나만의 캐러셀 스튜디오 (인스타 URL 로더 완성형)</h1>
   <span style="font-size:12px; color:#666;">Mac / iPhone / Android 웹 호환</span>
 </header>
 
@@ -128,11 +128,11 @@
       <summary>⚙️ 인스타 우회 설정 & 빠른 이미지 추가</summary>
       <div style="margin-top:8px; display:flex; flex-direction:column; gap:8px;">
         <div class="sub-hint">
-          기본 내장 프록시로 자동 추출합니다. 만약 인스타 보안으로 막힐 경우 아래 클립보드 붙여넣기(<b>Cmd+V</b>)나 파일 선택을 쓰시면 1초 만에 들어갑니다.
+          기본 내장 프록시로 자동 추출합니다. 막힐 경우 RapidAPI 키를 넣거나 화면에 <b>Cmd+V</b>를 누르세요.
         </div>
         <div class="row">
           <button id="pasteClipboardBtn" class="outline" style="flex:1;">📋 클립보드 이미지 붙여넣기 (Cmd+V)</button>
-          <button id="clearImagesBtn" class="outline">🗑️ 사진 전체 비우기</button>
+          <button id="clearImagesBtn" class="outline">🗑️ 사진 비우기</button>
         </div>
         <div>
           <label>RapidAPI 키 (선택사항 - 고해상도 전용)</label>
@@ -165,7 +165,7 @@
 
     <div>
       <label>본문 내용 (인스타 주소 가져오면 자동 입력됨)</label>
-      <textarea id="sourceText" placeholder="인스타 주소에서 자동 추출되거나 직접 붙여넣으세요."></textarea>
+      <textarea id="sourceText" placeholder="인스타 주소에서 자동 추출되거나 직접 입력하세요."></textarea>
     </div>
 
     <button id="recommendBtn" class="primary">✨ AI로 타이틀 6개 추천받기</button>
@@ -292,7 +292,6 @@
   let loadedImages = [];
   let currentIndex = 0;
 
-  // ==================== 1. API 키 로컬 저장소 관리 ====================
   const apiKeyInput = document.getElementById('apiKeyInput');
   const rapidKeyInput = document.getElementById('rapidKeyInput');
 
@@ -316,7 +315,6 @@
     alert('RapidAPI 키가 저장되었습니다.');
   });
 
-  // ==================== 2. 인스타그램 URL 이미지 & 본문 추출기 ====================
   function showStatus(msg, isError = false) {
     const box = document.getElementById('instaStatus');
     box.style.display = 'block';
@@ -329,7 +327,6 @@
     return match ? match[1] : null;
   }
 
-  // 외부 이미지 URL을 CORS 오염(Tainted Canvas) 없이 안전한 Image 객체로 변환
   async function loadRemoteImageSafe(imgUrl) {
     const proxyGenerators = [
       (u) => `https://wsrv.nl/?url=${encodeURIComponent(u)}&output=png`,
@@ -357,66 +354,62 @@
     throw new Error('이미지 프록시 로드 실패');
   }
 
-  // 인스타그램 Embed HTML에서 이미지 URL 목록과 본문 텍스트 파싱
-  function parseInstagramEmbedHtml(htmlText) {
+  function parseInstagramEmbedHtml(rawText) {
     const foundUrls = [];
     let captionText = '';
 
-    // 1) Embed 내부 JSON 데이터(contextJSON / gql_data) 탐색
-    const jsonMatch = htmlText.match(/window\.__additionalDataLoaded\s*\([^,]+,\s*(\{.*?\})\s*\);/s)
-                   || htmlText.match(/"gql_data"\s*:\s*(\{.*?\})\s*,\s*"country_code"/s);
+    const cleanHtml = rawText
+      .replace(/\\\//g, '/')
+      .replace(/\\u0026/g, '&')
+      .replace(/&amp;/g, '&');
 
-    if (jsonMatch) {
-      try {
-        const parsed = JSON.parse(jsonMatch[1]);
-        const media = parsed.shortcode_media || parsed;
-        if (media.edge_sidecar_to_children?.edges) {
-          media.edge_sidecar_to_children.edges.forEach(edge => {
-            if (edge.node?.display_url) foundUrls.push(edge.node.display_url);
-          });
-        } else if (media.display_url) {
-          foundUrls.push(media.display_url);
-        }
-        const capEdges = media.edge_media_to_caption?.edges;
-        if (capEdges && capEdges[0]?.node?.text) {
-          captionText = capEdges[0].node.text;
-        }
-      } catch (e) {}
+    const displayRegex = /"(?:display_url|display_src)"\s*:\s*"(https:\/\/[^"]+)"/g;
+    let m;
+    while ((m = displayRegex.exec(cleanHtml)) !== null) {
+      if (!m[1].includes('s150x150') && !m[1].includes('profile_pic')) {
+        foundUrls.push(m[1]);
+      }
     }
 
-    // 2) DOM 파싱으로 EmbeddedMediaImage 및 Caption 추출
     const parser = new DOMParser();
-    const doc = parser.parseFromString(htmlText, 'text/html');
+    const doc = parser.parseFromString(rawText, 'text/html');
 
     if (foundUrls.length === 0) {
-      const imgEls = doc.querySelectorAll('img.EmbeddedMediaImage, .EmbedFrame img');
-      imgEls.forEach(img => {
-        const src = img.getAttribute('src');
-        if (src && !src.includes('profile_pic') && !src.includes('s150x150')) {
-          foundUrls.push(src);
+      const imgs = doc.querySelectorAll('img');
+      imgs.forEach(img => {
+        const src = img.getAttribute('src') || '';
+        const cls = img.getAttribute('class') || '';
+        if (
+          cls.includes('EmbeddedMediaImage') ||
+          ((src.includes('cdninstagram.com') || src.includes('fbcdn.net')) &&
+            !src.includes('s150x150') &&
+            !src.includes('s320x320') &&
+            !src.includes('profile_pic'))
+        ) {
+          foundUrls.push(src.replace(/&amp;/g, '&'));
         }
       });
     }
 
-    // 3) 정규식으로 display_url 백업 탐색
     if (foundUrls.length === 0) {
-      const regex = /"display_url"\s*:\s*"([^"]+)"/g;
-      let m;
-      while ((m = regex.exec(htmlText)) !== null) {
-        const cleanUrl = m[1].replace(/\\u0026/g, '&').replace(/\\\//g, '/');
-        if (!foundUrls.includes(cleanUrl)) foundUrls.push(cleanUrl);
+      const mdImgRegex = /!\[.*?\]\((https:\/\/[^\s)]+(?:cdninstagram\.com|fbcdn\.net)[^\s)]+)\)/g;
+      while ((m = mdImgRegex.exec(rawText)) !== null) {
+        const u = m[1].replace(/&amp;/g, '&');
+        if (!u.includes('s150x150') && !u.includes('profile_pic')) {
+          foundUrls.push(u);
+        }
       }
     }
 
+    const capEl = doc.querySelector('.Caption');
+    if (capEl) {
+      const clone = capEl.cloneNode(true);
+      clone.querySelectorAll('.CaptionUsername, .CaptionCommentsExpand').forEach(el => el.remove());
+      captionText = clone.textContent.trim();
+    }
     if (!captionText) {
-      const capEl = doc.querySelector('.Caption');
-      if (capEl) {
-        const usernameEl = capEl.querySelector('.CaptionUsername');
-        if (usernameEl) usernameEl.remove();
-        const commentsEl = capEl.querySelector('.CaptionCommentsExpand');
-        if (commentsEl) commentsEl.remove();
-        captionText = capEl.textContent.trim();
-      }
+      const metaDesc = doc.querySelector('meta[property="og:description"]')?.getAttribute('content');
+      if (metaDesc) captionText = metaDesc;
     }
 
     return { urls: [...new Set(foundUrls)], caption: captionText };
@@ -441,7 +434,6 @@
     try {
       const rapidKey = rapidKeyInput.value.trim() || localStorage.getItem('RAPID_API_KEY');
 
-      // A. RapidAPI 키가 등록된 경우 우선 시도
       if (rapidKey) {
         try {
           const rRes = await fetch(
@@ -457,44 +449,39 @@
             const rJson = await rRes.json();
             const data = rJson.data || {};
             caption = data.caption?.text || '';
-            if (data.carousel_media && data.carousel_media.length > 0) {
-              data.carousel_media.forEach(item => {
-                const candidate = item.image_versions2?.candidates?.[0]?.url;
+            const items = data.carousel_media || data.resources || [];
+            if (items.length > 0) {
+              items.forEach(item => {
+                const candidate = item.image_versions2?.candidates?.[0]?.url || item.display_url || item.thumbnail_url;
                 if (candidate) imageUrls.push(candidate);
               });
-            } else if (data.image_versions2?.candidates?.[0]?.url) {
-              imageUrls.push(data.image_versions2.candidates[0].url);
+            } else {
+              const singleUrl = data.image_versions2?.candidates?.[0]?.url || data.display_url || data.thumbnail_url;
+              if (singleUrl) imageUrls.push(singleUrl);
             }
           }
         } catch (e) {}
       }
 
-      // B. 내장 무료 프록시로 인스타그램 Embed 페이지 파싱
       if (imageUrls.length === 0) {
         const embedUrl = `https://www.instagram.com/p/${shortcode}/embed/captioned/`;
-        const htmlProxies = [
-          `https://api.allorigins.win/get?url=${encodeURIComponent(embedUrl)}`,
+        const proxyTargets = [
           `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(embedUrl)}`,
-          `https://corsproxy.io/?${encodeURIComponent(embedUrl)}`
+          `https://api.allorigins.win/raw?url=${encodeURIComponent(embedUrl)}`,
+          `https://r.jina.ai/https://www.instagram.com/p/${shortcode}/embed/captioned/`
         ];
 
-        for (const pUrl of htmlProxies) {
+        for (const pUrl of proxyTargets) {
           try {
             const res = await fetch(pUrl);
             if (!res.ok) continue;
-            let htmlStr = '';
-            if (pUrl.includes('allorigins.win/get')) {
-              const j = await res.json();
-              htmlStr = j.contents || '';
-            } else {
-              htmlStr = await res.text();
-            }
-            if (!htmlStr) continue;
+            const textData = await res.text();
+            if (!textData || textData.length < 200) continue;
 
-            const parsed = parseInstagramEmbedHtml(htmlStr);
+            const parsed = parseInstagramEmbedHtml(textData);
             if (parsed.urls.length > 0) {
               imageUrls = parsed.urls;
-              caption = parsed.caption;
+              if (parsed.caption) caption = parsed.caption;
               break;
             }
           } catch (e) {
@@ -504,7 +491,7 @@
       }
 
       if (imageUrls.length === 0) {
-        throw new Error('인스타그램 보안으로 직접 추출이 제한된 게시물입니다. 이미지를 복사해 Cmd+V로 붙여넣어 주세요.');
+        throw new Error('무료 프록시가 차단된 게시물입니다. 좌측 [우회 설정]에 RapidAPI 키를 넣거나 Cmd+V를 사용해 주세요.');
       }
 
       showStatus(`✅ 사진 ${imageUrls.length}장 발견! 캔버스로 변환 중...`);
@@ -534,7 +521,6 @@
     }
   });
 
-  // ==================== 3. 클립보드 붙여넣기 (Cmd+V) 및 슬라이드 관리 ====================
   async function handleImageBlob(blob) {
     const url = URL.createObjectURL(blob);
     const img = new Image();
@@ -548,7 +534,6 @@
     img.src = url;
   }
 
-  // 화면 어디서든 Cmd+V / Ctrl+V 누르면 이미지 자동 추가
   window.addEventListener('paste', (e) => {
     const items = e.clipboardData?.items;
     if (!items) return;
@@ -560,7 +545,6 @@
     }
   });
 
-  // 모바일/버튼용 클립보드 이미지 읽기
   document.getElementById('pasteClipboardBtn').addEventListener('click', async () => {
     try {
       const clipboardItems = await navigator.clipboard.read();
@@ -572,9 +556,9 @@
           return;
         }
       }
-      alert('클립보드에 복사된 이미지가 없습니다. 사진을 복사한 뒤 다시 눌러주세요.');
+      alert('클립보드에 복사된 이미지가 없습니다.');
     } catch (err) {
-      alert('맥북에서는 화면 아무 곳에서나 Cmd + V 키를 누르시면 바로 들어갑니다.');
+      alert('맥북 화면 아무 곳에서나 Cmd + V 키를 누르시면 바로 들어갑니다.');
     }
   });
 
@@ -596,7 +580,6 @@
     renderCurrentSlide();
   });
 
-  // ==================== 4. AI 타이틀 6개 추천 기능 ====================
   document.getElementById('recommendBtn').addEventListener('click', async () => {
     const apiKey = apiKeyInput.value.trim() || localStorage.getItem('GEMINI_API_KEY');
     const sourceText = document.getElementById('sourceText').value.trim();
@@ -699,7 +682,6 @@ ${sourceText}
     });
   }
 
-  // ==================== 5. 캔버스 렌더링 엔진 ====================
   const controls = [
     'canvasSize', 'imageFit', 'bgColor', 'topRatio', 'bottomRatio',
     'topText', 'bottomText', 'fontSize', 'textAlign', 'fontWeight',
