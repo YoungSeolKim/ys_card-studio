@@ -502,7 +502,8 @@ ${sourceText}
 
       const item = document.createElement('div');
       item.className = 'rec-item';
-      item.innerHTML = `<div class="rec-item-text">✨ 추천 ${titles.length}장 세트완성 (${titles[0].slice(0, 15)}...)</div>`;
+      const firstTitle = (titles && titles[0]) ? titles[0] : '추천 타이틀';
+item.innerHTML = `<div class="rec-item-text">✨ 추천 ${titles.length}장 세트완성 (${firstTitle.slice(0, 15)}...)</div>`;
       
       const applyBtn = document.createElement('button');
       applyBtn.textContent = '👉 이 세트를 모든 슬라이드에 장별로 적용하기';
