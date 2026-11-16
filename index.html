@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>나만의 캐러셀 스튜디오 (Step 3 완정형)</title>
+  <title>YS의 캐러셀 스튜디오</title>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
   <style>
@@ -26,32 +26,22 @@
       .container { grid-template-columns: 1fr; }
     }
     .panel {
-      background: #fff;
-      border-radius: 12px;
-      padding: 16px;
-      border: 1px solid #e5e0d5;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
+      background: #fff; border-radius: 12px; padding: 16px;
+      border: 1px solid #e5e0d5; display: flex; flex-direction: column; gap: 12px;
     }
     .panel h2 {
-      margin: 0 0 2px 0;
-      font-size: 15px;
-      border-bottom: 1px solid #eee;
-      padding-bottom: 8px;
+      margin: 0 0 2px 0; font-size: 15px; border-bottom: 1px solid #eee; padding-bottom: 8px;
     }
     label { font-size: 12.5px; font-weight: 700; display: block; margin-bottom: 4px; }
     .sub-hint { font-size: 11px; color: #777; margin-top: -2px; margin-bottom: 4px; line-height: 1.35; }
     input[type="text"], input[type="password"], textarea, select {
-      width: 100%; padding: 8px 10px; border: 1px solid #ccc; border-radius: 6px;
-      font-size: 13px;
+      width: 100%; padding: 8px 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 13px;
     }
     textarea { resize: vertical; min-height: 64px; }
     .row { display: flex; gap: 8px; align-items: center; }
     .row > div { flex: 1; }
     input[type="color"] {
-      width: 100%; height: 34px; border: 1px solid #ccc; border-radius: 6px;
-      cursor: pointer; background: #fff; padding: 2px;
+      width: 100%; height: 34px; border: 1px solid #ccc; border-radius: 6px; cursor: pointer; background: #fff; padding: 2px;
     }
     input[type="range"] { width: 100%; cursor: pointer; }
     .canvas-area {
@@ -59,8 +49,7 @@
       background: #e9e5dc; border-radius: 12px; padding: 20px; min-height: 540px;
     }
     canvas {
-      max-width: 100%; max-height: 65vh;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+      max-width: 100%; max-height: 65vh; box-shadow: 0 8px 24px rgba(0,0,0,0.25);
       border-radius: 4px; background: #000;
     }
     .slide-nav {
@@ -80,43 +69,33 @@
     button.outline:hover { background: #e5e0d5; }
     .btn-group { display: flex; gap: 8px; width: 100%; margin-top: 12px; }
     .btn-group button { flex: 1; }
-
     .status-box {
-      font-size: 12px; padding: 8px 10px; border-radius: 6px;
-      background: #f8f6f0; border: 1px solid #e0d9c8; display: none;
+      font-size: 12px; padding: 8px 10px; border-radius: 6px; background: #f8f6f0; border: 1px solid #e0d9c8; display: none;
     }
-    .rec-list {
-      display: flex; flex-direction: column; gap: 6px;
-      max-height: 230px; overflow-y: auto;
-    }
+    .rec-list { display: flex; flex-direction: column; gap: 6px; max-height: 230px; overflow-y: auto; }
     .rec-item {
       background: #f9f7f2; border: 1px solid #e0d9c8; border-radius: 8px;
-      padding: 8px 10px; font-size: 12.5px; line-height: 1.4;
-      display: flex; flex-direction: column; gap: 6px;
+      padding: 8px 10px; font-size: 12.5px; line-height: 1.4; display: flex; flex-direction: column; gap: 6px;
     }
     .rec-item-text { font-weight: 700; color: #222; white-space: pre-wrap; }
     .rec-actions { display: flex; gap: 6px; }
-    .rec-actions button {
-      padding: 4px 8px; font-size: 11px; border-radius: 4px; flex: 1;
-    }
-    details summary {
-      font-size: 12px; color: #555; cursor: pointer; font-weight: 700;
-    }
+    .rec-actions button { padding: 4px 8px; font-size: 11px; border-radius: 4px; flex: 1; }
+    details summary { font-size: 12px; color: #555; cursor: pointer; font-weight: 700; }
   </style>
 </head>
 <body>
 
 <header>
-  <h1>🥔 나만의 캐러셀 스튜디오 (인스타 URL 로더 완성형)</h1>
-  <span style="font-size:12px; color:#666;">Mac / iPhone / Android 웹 호환</span>
+  <h1>🥔 나만의 캐러셀 스튜디오 (빌드업 완성형)</h1>
+  <span style="font-size:12px; color:#666;">로그인 불필요 · 무제한 개인용</span>
 </header>
 
 <div class="container">
-  <!-- 좌측 패널: 인스타 URL 로더 & AI 본문 분석 -->
+  <!-- 좌측 패널: 인스타 로더 & AI 추천 -->
   <div class="panel">
     <h2>1. 인스타그램 주소로 가져오기</h2>
     <div>
-      <label>인스타그램 게시물 URL (단일 / 캐러셀 지원)</label>
+      <label>인스타그램 게시물 URL</label>
       <div class="row">
         <input type="text" id="instaUrlInput" placeholder="https://www.instagram.com/p/..." />
         <button id="fetchInstaBtn" class="insta" style="white-space:nowrap;">가져오기</button>
@@ -125,27 +104,17 @@
     </div>
 
     <details>
-      <summary>⚙️ 인스타 우회 설정 & 빠른 이미지 추가</summary>
+      <summary>⚙️ 빠른 사진 추가 (Cmd+V)</summary>
       <div style="margin-top:8px; display:flex; flex-direction:column; gap:8px;">
-        <div class="sub-hint">
-          기본 내장 프록시로 자동 추출합니다. 막힐 경우 RapidAPI 키를 넣거나 화면에 <b>Cmd+V</b>를 누르세요.
-        </div>
         <div class="row">
-          <button id="pasteClipboardBtn" class="outline" style="flex:1;">📋 클립보드 이미지 붙여넣기 (Cmd+V)</button>
-          <button id="clearImagesBtn" class="outline">🗑️ 사진 비우기</button>
-        </div>
-        <div>
-          <label>RapidAPI 키 (선택사항 - 고해상도 전용)</label>
-          <div class="row">
-            <input type="password" id="rapidKeyInput" placeholder="RapidAPI Key (instagram-scraper-api2)" />
-            <button id="saveRapidKeyBtn" style="white-space:nowrap;">저장</button>
-          </div>
+          <button id="pasteClipboardBtn" class="outline" style="flex:1;">📋 클립보드 붙여넣기 (Cmd+V)</button>
+          <button id="clearImagesBtn" class="outline">🗑️ 비우기</button>
         </div>
       </div>
     </details>
 
     <div>
-      <label>또는 기기에서 사진 직접 선택 (여러 장 가능)</label>
+      <label>기기에서 사진 직접 선택 (여러 장 가능)</label>
       <input type="file" id="imageInput" accept="image/*" multiple />
     </div>
 
@@ -153,30 +122,39 @@
     <div>
       <label>Gemini API 키</label>
       <div class="row">
-        <input type="password" id="apiKeyInput" placeholder="AIzaSy... 키 붙여넣기" />
+        <input type="password" id="apiKeyInput" placeholder="AIzaSy... 키 입력" />
         <button id="saveKeyBtn" style="white-space:nowrap;">저장</button>
       </div>
     </div>
 
     <div>
-      <label>AI 지침 (선택사항)</label>
+      <label>AI 지침 (예: 숫자를 넣어줘)</label>
       <input type="text" id="aiCustomPrompt" value="호기심을 자극하고 숫자를 활용해 줘" />
     </div>
 
     <div>
-      <label>본문 내용 (인스타 주소 가져오면 자동 입력됨)</label>
-      <textarea id="sourceText" placeholder="인스타 주소에서 자동 추출되거나 직접 입력하세요."></textarea>
+      <label>만들 카드 장수</label>
+      <select id="cardCountSelect">
+        <option value="3">3장</option>
+        <option value="5" selected>5장</option>
+        <option value="7">7장</option>
+      </select>
     </div>
 
-    <button id="recommendBtn" class="primary">✨ AI로 타이틀 6개 추천받기</button>
+    <div>
+      <label>본문 내용</label>
+      <textarea id="sourceText" placeholder="본문을 넣거나 인스타 주소를 가져오세요."></textarea>
+    </div>
+
+    <button id="recommendBtn" class="primary">✨ AI로 캐러셀 타이틀 세트 추천받기</button>
 
     <div id="recContainer" style="display:none;">
-      <label>추천 타이틀 (클릭 시 캔버스 즉시 반영)</label>
+      <label>추천된 타이틀 세트 (클릭 시 전체 카드에 장별 적용)</label>
       <div id="recList" class="rec-list"></div>
     </div>
   </div>
 
-  <!-- 중앙 패널: 미리보기 캔버스 및 캐러셀 컨트롤 -->
+  <!-- 중앙 패널: 캔버스 및 슬라이드 제어 -->
   <div class="canvas-area">
     <canvas id="cardCanvas" width="1080" height="1350"></canvas>
 
@@ -184,7 +162,8 @@
       <button id="prevBtn">◀ 이전</button>
       <span id="slideIndicator" style="font-weight:700; font-size:14px;">1 / 1</span>
       <button id="nextBtn">다음 ▶</button>
-      <button id="deleteSlideBtn" class="outline" title="현재 슬라이드 삭제">현재 장 삭제</button>
+      <button id="addSlideBtn" class="outline">➕ 장 추가</button>
+      <button id="deleteSlideBtn" class="outline">🗑️ 현재 장 삭제</button>
     </div>
 
     <div class="btn-group" style="max-width: 440px;">
@@ -193,12 +172,12 @@
     </div>
   </div>
 
-  <!-- 우측 패널: 캔버스 여백 & 타이틀 글씨 스타일 -->
+  <!-- 우측 패널: 슬라이드별 개별 텍스트 및 스타일 설정 -->
   <div class="panel">
-    <h2>3. 캔버스 및 위/아래 영역 설정</h2>
+    <h2>3. 캔버스 규격 & 배경 스타일</h2>
     <div class="row">
       <div>
-        <label>캔버스 규격</label>
+        <label>비율</label>
         <select id="canvasSize">
           <option value="1080x1350">게시물 (4:5)</option>
           <option value="1080x1080">정방형 (1:1)</option>
@@ -214,33 +193,43 @@
       </div>
     </div>
 
-    <div>
-      <label>위/아래 영역 배경색 (기본 까만색)</label>
-      <input type="color" id="bgColor" value="#000000" />
+    <div class="row">
+      <div>
+        <label>배경 스타일</label>
+        <select id="bgStyle">
+          <option value="solid">단색 배경</option>
+          <option value="gradient">그라데이션 블렌딩</option>
+        </select>
+      </div>
+      <div>
+        <label>여백 배경색</label>
+        <input type="color" id="bgColor" value="#000000" />
+      </div>
     </div>
 
-    <div>
-      <label>위쪽 영역 높이 비율: <span id="topRatioVal">22</span>%</label>
-      <input type="range" id="topRatio" min="0" max="45" value="22" />
+    <div class="row">
+      <div>
+        <label>위쪽 여백: <span id="topRatioVal">22</span>%</label>
+        <input type="range" id="topRatio" min="0" max="45" value="22" />
+      </div>
+      <div>
+        <label>아래쪽 여백: <span id="bottomRatioVal">18</span>%</label>
+        <input type="range" id="bottomRatio" min="0" max="45" value="18" />
+      </div>
     </div>
 
-    <div>
-      <label>아래쪽 영역 높이 비율: <span id="bottomRatioVal">18</span>%</label>
-      <input type="range" id="bottomRatio" min="0" max="45" value="18" />
-    </div>
-
-    <h2>4. 타이틀 & 글씨 스타일</h2>
-    <div class="sub-hint">💡 <b>[대괄호]</b>로 감싼 글자는 '강조 색상'으로 자동 변환됩니다.</div>
+    <h2>4. 현재 슬라이드 글씨 편집</h2>
+    <div class="sub-hint">💡 각 슬라이드마다 <b>개별 문구</b>를 넣을 수 있습니다. [대괄호]는 강조 색상!</div>
 
     <div>
-      <label>위쪽 타이틀</label>
-      <textarea id="topText">하루 10분,
+      <label>현재 장 위쪽 타이틀 (<span id="currentCardLabel">1번 카드</span>)</label>
+      <textarea id="currentTopText">하루 10분,
 [작은 습관이 만드는 거대한 변화]</textarea>
     </div>
 
     <div>
-      <label>아래쪽 타이틀 (비워두면 표시 안 됨)</label>
-      <textarea id="bottomText" placeholder="하단 문구가 필요하면 입력하세요"></textarea>
+      <label>현재 장 아래쪽 타이틀</label>
+      <textarea id="currentBottomText" placeholder="하단 서브 텍스트"></textarea>
     </div>
 
     <div>
@@ -258,18 +247,13 @@
         </select>
       </div>
       <div>
-        <label>글씨 두께</label>
+        <label>두께</label>
         <select id="fontWeight">
-          <option value="900" selected>아주 굵게 (Black)</option>
-          <option value="700">굵게 (Bold)</option>
-          <option value="400">보통 (Regular)</option>
+          <option value="900" selected>아주 굵게</option>
+          <option value="700">굵게</option>
+          <option value="400">보통</option>
         </select>
       </div>
-    </div>
-
-    <div>
-      <label>행간 (줄 간격): <span id="lineHeightVal">1.35</span>배</label>
-      <input type="range" id="lineHeight" min="1.0" max="2.0" step="0.05" value="1.35" />
     </div>
 
     <div class="row">
@@ -282,6 +266,11 @@
         <input type="color" id="highlightColor" value="#00ff00" />
       </div>
     </div>
+
+    <div>
+      <label>글자 테두리(스트로크) 색상</label>
+      <input type="color" id="strokeColor" value="#000000" />
+    </div>
   </div>
 </div>
 
@@ -289,31 +278,64 @@
   const canvas = document.getElementById('cardCanvas');
   const ctx = canvas.getContext('2d');
 
-  let loadedImages = [];
+  let slideData = []; // [{img: Image, topText: '', bottomText: ''}]
   let currentIndex = 0;
 
   const apiKeyInput = document.getElementById('apiKeyInput');
-  const rapidKeyInput = document.getElementById('rapidKeyInput');
-
   if (localStorage.getItem('GEMINI_API_KEY')) {
     apiKeyInput.value = localStorage.getItem('GEMINI_API_KEY');
-  }
-  if (localStorage.getItem('RAPID_API_KEY')) {
-    rapidKeyInput.value = localStorage.getItem('RAPID_API_KEY');
   }
 
   document.getElementById('saveKeyBtn').addEventListener('click', () => {
     const key = apiKeyInput.value.trim();
-    if (!key) return alert('Gemini API 키를 입력해 주세요.');
+    if (!key) return alert('API 키를 입력해 주세요.');
     localStorage.setItem('GEMINI_API_KEY', key);
-    alert('Gemini API 키가 저장되었습니다.');
+    alert('저장되었습니다.');
   });
 
-  document.getElementById('saveRapidKeyBtn').addEventListener('click', () => {
-    const key = rapidKeyInput.value.trim();
-    localStorage.setItem('RAPID_API_KEY', key);
-    alert('RapidAPI 키가 저장되었습니다.');
+  function ensureSlideDataLength(targetLen) {
+    while (slideData.length < targetLen) {
+      slideData.push({ img: null, topText: slideData.length === 0 ? '핵심 타이틀\n[강조 포인트]' : `${slideData.length + 1}번째 이야기`, bottomText: '' });
+    }
+  }
+
+  function syncTextToCurrentSlide() {
+    if (slideData[currentIndex]) {
+      slideData[currentIndex].topText = document.getElementById('currentTopText').value;
+      slideData[currentIndex].bottomText = document.getElementById('currentBottomText').value;
+    }
+  }
+
+  function syncSlideToUI() {
+    ensureSlideDataLength(Math.max(1, slideData.length));
+    document.getElementById('currentTopText').value = slideData[currentIndex].topText || '';
+    document.getElementById('currentBottomText').value = slideData[currentIndex].bottomText || '';
+    document.getElementById('currentCardLabel').textContent = `${currentIndex + 1}번 카드`;
+    updateSlideNav();
+    renderCurrentSlide();
+  }
+
+  // 실시간 입력 연동
+  ['currentTopText', 'currentBottomText'].forEach(id => {
+    document.getElementById(id).addEventListener('input', () => {
+      syncTextToCurrentSlide();
+      renderCurrentSlide();
+    });
   });
+
+  const controls = ['canvasSize', 'imageFit', 'bgStyle', 'bgColor', 'topRatio', 'bottomRatio', 'fontSize', 'textAlign', 'fontWeight', 'textColor', 'highlightColor', 'strokeColor'];
+  controls.forEach(id => {
+    document.getElementById(id).addEventListener('input', () => {
+      updateLabels();
+      renderCurrentSlide();
+    });
+  });
+
+  function updateLabels() {
+    document.getElementById('topRatioVal').textContent = document.getElementById('topRatio').value;
+    document.getElementById('bottomRatioVal').textContent = document.getElementById('bottomRatio').value;
+    document.getElementById('fontSizeVal').textContent = document.getElementById('fontSize').value;
+  }
 
   function showStatus(msg, isError = false) {
     const box = document.getElementById('instaStatus');
@@ -333,7 +355,6 @@
       (u) => `https://corsproxy.io/?${encodeURIComponent(u)}`,
       (u) => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`
     ];
-
     for (const makeProxyUrl of proxyGenerators) {
       try {
         const res = await fetch(makeProxyUrl(imgUrl));
@@ -347,172 +368,45 @@
           i.src = objectUrl;
         });
         return img;
-      } catch (e) {
-        continue;
-      }
+      } catch (e) { continue; }
     }
-    throw new Error('이미지 프록시 로드 실패');
-  }
-
-  function parseInstagramEmbedHtml(rawText) {
-    const foundUrls = [];
-    let captionText = '';
-
-    const cleanHtml = rawText
-      .replace(/\\\//g, '/')
-      .replace(/\\u0026/g, '&')
-      .replace(/&amp;/g, '&');
-
-    const displayRegex = /"(?:display_url|display_src)"\s*:\s*"(https:\/\/[^"]+)"/g;
-    let m;
-    while ((m = displayRegex.exec(cleanHtml)) !== null) {
-      if (!m[1].includes('s150x150') && !m[1].includes('profile_pic')) {
-        foundUrls.push(m[1]);
-      }
-    }
-
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(rawText, 'text/html');
-
-    if (foundUrls.length === 0) {
-      const imgs = doc.querySelectorAll('img');
-      imgs.forEach(img => {
-        const src = img.getAttribute('src') || '';
-        const cls = img.getAttribute('class') || '';
-        if (
-          cls.includes('EmbeddedMediaImage') ||
-          ((src.includes('cdninstagram.com') || src.includes('fbcdn.net')) &&
-            !src.includes('s150x150') &&
-            !src.includes('s320x320') &&
-            !src.includes('profile_pic'))
-        ) {
-          foundUrls.push(src.replace(/&amp;/g, '&'));
-        }
-      });
-    }
-
-    if (foundUrls.length === 0) {
-      const mdImgRegex = /!\[.*?\]\((https:\/\/[^\s)]+(?:cdninstagram\.com|fbcdn\.net)[^\s)]+)\)/g;
-      while ((m = mdImgRegex.exec(rawText)) !== null) {
-        const u = m[1].replace(/&amp;/g, '&');
-        if (!u.includes('s150x150') && !u.includes('profile_pic')) {
-          foundUrls.push(u);
-        }
-      }
-    }
-
-    const capEl = doc.querySelector('.Caption');
-    if (capEl) {
-      const clone = capEl.cloneNode(true);
-      clone.querySelectorAll('.CaptionUsername, .CaptionCommentsExpand').forEach(el => el.remove());
-      captionText = clone.textContent.trim();
-    }
-    if (!captionText) {
-      const metaDesc = doc.querySelector('meta[property="og:description"]')?.getAttribute('content');
-      if (metaDesc) captionText = metaDesc;
-    }
-
-    return { urls: [...new Set(foundUrls)], caption: captionText };
+    throw new Error('이미지 로드 실패');
   }
 
   document.getElementById('fetchInstaBtn').addEventListener('click', async () => {
     const rawUrl = document.getElementById('instaUrlInput').value.trim();
     const shortcode = extractShortcode(rawUrl);
-
-    if (!shortcode) {
-      return showStatus('올바른 인스타그램 게시물 주소(instagram.com/p/...)를 입력해 주세요.', true);
-    }
+    if (!shortcode) return showStatus('올바른 인스타그램 주소를 입력해 주세요.', true);
 
     const btn = document.getElementById('fetchInstaBtn');
     btn.disabled = true;
     btn.textContent = '추출 중...';
-    showStatus('⏳ 인스타그램에서 게시물 정보를 가져오는 중입니다...');
-
-    let imageUrls = [];
-    let caption = '';
+    showStatus('⏳ 인스타 게시물 가져오는 중...');
 
     try {
-      const rapidKey = rapidKeyInput.value.trim() || localStorage.getItem('RAPID_API_KEY');
-
-      if (rapidKey) {
-        try {
-          const rRes = await fetch(
-            `https://instagram-scraper-api2.p.rapidapi.com/v1/post_info?code_or_id_or_url=${encodeURIComponent(shortcode)}`,
-            {
-              headers: {
-                'x-rapidapi-key': rapidKey,
-                'x-rapidapi-host': 'instagram-scraper-api2.p.rapidapi.com'
-              }
-            }
-          );
-          if (rRes.ok) {
-            const rJson = await rRes.json();
-            const data = rJson.data || {};
-            caption = data.caption?.text || '';
-            const items = data.carousel_media || data.resources || [];
-            if (items.length > 0) {
-              items.forEach(item => {
-                const candidate = item.image_versions2?.candidates?.[0]?.url || item.display_url || item.thumbnail_url;
-                if (candidate) imageUrls.push(candidate);
-              });
-            } else {
-              const singleUrl = data.image_versions2?.candidates?.[0]?.url || data.display_url || data.thumbnail_url;
-              if (singleUrl) imageUrls.push(singleUrl);
-            }
-          }
-        } catch (e) {}
+      const embedUrl = `https://www.instagram.com/p/${shortcode}/embed/captioned/`;
+      const res = await fetch(`https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(embedUrl)}`);
+      const htmlStr = await res.text();
+      
+      const foundUrls = [];
+      const displayRegex = /"(?:display_url|display_src)"\s*:\s*"(https:\/\/[^"]+)"/g;
+      let m;
+      while ((m = displayRegex.exec(htmlStr.replace(/\\\//g, '/').replace(/\\u0026/g, '&'))) !== null) {
+        if (!m[1].includes('s150x150')) foundUrls.push(m[1]);
       }
 
-      if (imageUrls.length === 0) {
-        const embedUrl = `https://www.instagram.com/p/${shortcode}/embed/captioned/`;
-        const proxyTargets = [
-          `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(embedUrl)}`,
-          `https://api.allorigins.win/raw?url=${encodeURIComponent(embedUrl)}`,
-          `https://r.jina.ai/https://www.instagram.com/p/${shortcode}/embed/captioned/`
-        ];
+      if (foundUrls.length === 0) throw new Error('직접 추출 제한된 게시물입니다. Cmd+V로 이미지를 붙여넣어 주세요.');
 
-        for (const pUrl of proxyTargets) {
-          try {
-            const res = await fetch(pUrl);
-            if (!res.ok) continue;
-            const textData = await res.text();
-            if (!textData || textData.length < 200) continue;
-
-            const parsed = parseInstagramEmbedHtml(textData);
-            if (parsed.urls.length > 0) {
-              imageUrls = parsed.urls;
-              if (parsed.caption) caption = parsed.caption;
-              break;
-            }
-          } catch (e) {
-            continue;
-          }
-        }
+      slideData = [];
+      for (let i = 0; i < foundUrls.length; i++) {
+        showStatus(`⏳ 이미지 로딩 중 (${i+1}/${foundUrls.length})`);
+        const imgObj = await loadRemoteImageSafe(foundUrls[i]);
+        slideData.push({ img: imgObj, topText: i === 0 ? '인스타에서 가져온 타이틀' : `${i+1}번째 카드`, bottomText: '' });
       }
 
-      if (imageUrls.length === 0) {
-        throw new Error('무료 프록시가 차단된 게시물입니다. 좌측 [우회 설정]에 RapidAPI 키를 넣거나 Cmd+V를 사용해 주세요.');
-      }
-
-      showStatus(`✅ 사진 ${imageUrls.length}장 발견! 캔버스로 변환 중...`);
-
-      const newImages = [];
-      for (let i = 0; i < imageUrls.length; i++) {
-        showStatus(`⏳ 이미지 불러오는 중... (${i + 1} / ${imageUrls.length})`);
-        const imgObj = await loadRemoteImageSafe(imageUrls[i]);
-        newImages.push(imgObj);
-      }
-
-      loadedImages = newImages;
       currentIndex = 0;
-      updateSlideNav();
-      renderCurrentSlide();
-
-      if (caption) {
-        document.getElementById('sourceText').value = caption;
-      }
-
-      showStatus(`🎉 총 ${loadedImages.length}장의 이미지와 본문을 성공적으로 가져왔습니다!`);
+      syncSlideToUI();
+      showStatus(`🎉 총 ${slideData.length장의 이미지를 가져왔습니다!`);
     } catch (err) {
       showStatus('⚠️ ' + err.message, true);
     } finally {
@@ -521,87 +415,74 @@
     }
   });
 
-  async function handleImageBlob(blob) {
-    const url = URL.createObjectURL(blob);
-    const img = new Image();
-    img.onload = () => {
-      loadedImages.push(img);
-      currentIndex = loadedImages.length - 1;
-      updateSlideNav();
-      renderCurrentSlide();
-      showStatus(`📋 클립보드 이미지가 ${loadedImages.length}번째 슬라이드로 추가되었습니다.`);
-    };
-    img.src = url;
+  // 파일 직접 업로드
+  document.getElementById('imageInput').addEventListener('change', (e) => {
+    const files = Array.from(e.target.files);
+    if (!files.length) return;
+
+    files.forEach((file, idx) => {
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        const img = new Image();
+        img.onload = () => {
+          slideData.push({ img: img, topText: `${slideData.length + 1}번째 카드`, bottomText: '' });
+          if (idx === files.length - 1) {
+            currentIndex = 0;
+            syncSlideToUI();
+          }
+        };
+        img.src = ev.target.result;
+      };
+      reader.readAsDataURL(file);
+    });
+  });
+
+  // 슬라이드 이동
+  document.getElementById('prevBtn').addEventListener('click', () => {
+    if (currentIndex > 0) { syncTextToCurrentSlide(); currentIndex--; syncSlideToUI(); }
+  });
+  document.getElementById('nextBtn').addEventListener('click', () => {
+    if (currentIndex < slideData.length - 1) { syncTextToCurrentSlide(); currentIndex++; syncSlideToUI(); }
+  });
+  document.getElementById('addSlideBtn').addEventListener('click', () => {
+    syncTextToCurrentSlide();
+    slideData.push({ img: null, topText: '새로운 카드', bottomText: '' });
+    currentIndex = slideData.length - 1;
+    syncSlideToUI();
+  });
+  document.getElementById('deleteSlideBtn').addEventListener('click', () => {
+    if (slideData.length <= 1) return alert('최소 1장의 카드는 유지되어야 합니다.');
+    slideData.splice(currentIndex, 1);
+    currentIndex = Math.max(0, currentIndex - 1);
+    syncSlideToUI();
+  });
+
+  function updateSlideNav() {
+    ensureSlideDataLength(1);
+    document.getElementById('slideIndicator').textContent = `${currentIndex + 1} / ${slideData.length}`;
   }
 
-  window.addEventListener('paste', (e) => {
-    const items = e.clipboardData?.items;
-    if (!items) return;
-    for (const item of items) {
-      if (item.type.startsWith('image/')) {
-        const blob = item.getAsFile();
-        if (blob) handleImageBlob(blob);
-      }
-    }
-  });
-
-  document.getElementById('pasteClipboardBtn').addEventListener('click', async () => {
-    try {
-      const clipboardItems = await navigator.clipboard.read();
-      for (const item of clipboardItems) {
-        const imgType = item.types.find(t => t.startsWith('image/'));
-        if (imgType) {
-          const blob = await item.getType(imgType);
-          await handleImageBlob(blob);
-          return;
-        }
-      }
-      alert('클립보드에 복사된 이미지가 없습니다.');
-    } catch (err) {
-      alert('맥북 화면 아무 곳에서나 Cmd + V 키를 누르시면 바로 들어갑니다.');
-    }
-  });
-
-  document.getElementById('clearImagesBtn').addEventListener('click', () => {
-    loadedImages = [];
-    currentIndex = 0;
-    updateSlideNav();
-    renderCurrentSlide();
-    showStatus('🗑️ 모든 슬라이드 사진을 비웠습니다.');
-  });
-
-  document.getElementById('deleteSlideBtn').addEventListener('click', () => {
-    if (!loadedImages.length) return;
-    loadedImages.splice(currentIndex, 1);
-    if (currentIndex >= loadedImages.length) {
-      currentIndex = Math.max(0, loadedImages.length - 1);
-    }
-    updateSlideNav();
-    renderCurrentSlide();
-  });
-
+  // AI 추천 (장수별 자동 분할 생성)
   document.getElementById('recommendBtn').addEventListener('click', async () => {
     const apiKey = apiKeyInput.value.trim() || localStorage.getItem('GEMINI_API_KEY');
     const sourceText = document.getElementById('sourceText').value.trim();
     const customRule = document.getElementById('aiCustomPrompt').value.trim();
+    const targetCount = parseInt(document.getElementById('cardCountSelect').value);
 
-    if (!apiKey) return alert('먼저 Gemini API 키를 입력해 주세요.');
-    if (!sourceText) return alert('분석할 본문 내용을 입력하거나 인스타 주소를 가져와 주세요.');
+    if (!apiKey) return alert('Gemini API 키를 입력해 주세요.');
+    if (!sourceText) return alert('분석할 본문을 입력해 주세요.');
 
     localStorage.setItem('GEMINI_API_KEY', apiKey);
-
     const btn = document.getElementById('recommendBtn');
     btn.disabled = true;
-    btn.textContent = '⏳ AI가 타이틀 뽑는 중...';
+    btn.textContent = '⏳ AI가 카드별 타이틀 세트 구성 중...';
 
     const prompt = `
-다음 본문을 읽고 인스타그램 카드뉴스 상단/하단에 넣을 클릭 유도형(후킹) 타이틀 6개를 추천해 줘.
+다음 본문을 읽고 인스타그램 카드뉴스 총 ${targetCount}장 분량의 타이틀 세트를 만들어 줘.
 [필수 규칙]
-1. 각 타이틀은 1줄 또는 2줄(줄바꿈 \\n 포함) 이내로 짧고 강렬하게 작성할 것.
-2. 각 타이틀에서 가장 핵심이 되는 강조 단어/구절은 반드시 [대괄호]로 감싸줄 것. (예: 하루 10분,\\n[작은 습관이 만드는 거대한 변화])
-3. 추가 지침: ${customRule || '없음'}
-4. 다른 설명 없이 오직 JSON 문자열 배열 형식으로만 응답할 것. 예: ["타이틀1", "타이틀2", "타이틀3", "타이틀4", "타이틀5", "타이틀6"]
-
+1. 정확히 ${targetCount}개의 타이틀 문자열을 담은 JSON 배열로만 응답할 것. (예: ["1장 타이틀", "2장 타이틀", ...])
+2. 각 타이틀은 1~2줄 이내로 작성하고 핵심 강조 단어는 반드시 [대괄호]로 감쌀 것.
+3. 추가 지침: ${customRule}
 [본문]
 ${sourceText}
 `.trim();
@@ -618,165 +499,143 @@ ${sourceText}
           })
         }
       );
-
-      if (!response.ok) {
-        const errData = await response.json();
-        throw new Error(errData.error?.message || 'API 호출 실패');
-      }
-
       const data = await response.json();
-      const rawText = data.candidates?.[0]?.content?.parts?.[0]?.text || '[]';
-      const titles = JSON.parse(rawText);
-      renderRecommendedTitles(titles);
-    } catch (err) {
-      alert('AI 추천 중 오류가 발생했습니다: ' + err.message);
-    } finally {
-      btn.disabled = false;
-      btn.textContent = '✨ AI로 타이틀 6개 추천받기';
-    }
-  });
+      const titles = JSON.parse(data.candidates?.[0]?.content?.parts?.[0]?.text || '[]');
+      
+      const container = document.getElementById('recContainer');
+      const listEl = document.getElementById('recList');
+      listEl.innerHTML = '';
+      container.style.display = 'block';
 
-  function renderRecommendedTitles(titles) {
-    const container = document.getElementById('recContainer');
-    const listEl = document.getElementById('recList');
-    listEl.innerHTML = '';
-
-    if (!Array.isArray(titles) || titles.length === 0) {
-      container.style.display = 'none';
-      return;
-    }
-
-    container.style.display = 'block';
-
-    titles.forEach((title) => {
       const item = document.createElement('div');
       item.className = 'rec-item';
-
-      const textDiv = document.createElement('div');
-      textDiv.className = 'rec-item-text';
-      textDiv.textContent = title;
-
-      const actionsDiv = document.createElement('div');
-      actionsDiv.className = 'rec-actions';
-
-      const applyTopBtn = document.createElement('button');
-      applyTopBtn.textContent = '⬆ 위쪽 타이틀 적용';
-      applyTopBtn.addEventListener('click', () => {
-        document.getElementById('topText').value = title;
-        renderCurrentSlide();
+      item.innerHTML = `<div class="rec-item-text">✨ 추천 ${titles.length}장 세트완성 (${titles[0].slice(0, 15)}...)</div>`;
+      
+      const applyBtn = document.createElement('button');
+      applyBtn.textContent = '👉 이 세트를 모든 슬라이드에 장별로 적용하기';
+      applyBtn.className = 'primary';
+      applyBtn.addEventListener('click', () => {
+        titles.forEach((t, i) => {
+          ensureSlideDataLength(i + 1);
+          slideData[i].topText = t;
+        });
+        syncSlideToUI();
+        alert('모든 카드에 장별 타이틀이 적용되었습니다!');
       });
-
-      const applyBottomBtn = document.createElement('button');
-      applyBottomBtn.textContent = '⬇ 아래쪽 타이틀 적용';
-      applyBottomBtn.addEventListener('click', () => {
-        document.getElementById('bottomText').value = title;
-        renderCurrentSlide();
-      });
-
-      actionsDiv.appendChild(applyTopBtn);
-      actionsDiv.appendChild(applyBottomBtn);
-
-      item.appendChild(textDiv);
-      item.appendChild(actionsDiv);
+      item.appendChild(applyBtn);
       listEl.appendChild(item);
-    });
-  }
-
-  const controls = [
-    'canvasSize', 'imageFit', 'bgColor', 'topRatio', 'bottomRatio',
-    'topText', 'bottomText', 'fontSize', 'textAlign', 'fontWeight',
-    'lineHeight', 'textColor', 'highlightColor'
-  ];
-
-  controls.forEach(id => {
-    document.getElementById(id).addEventListener('input', () => {
-      updateLabels();
-      renderCurrentSlide();
-    });
-  });
-
-  function updateLabels() {
-    document.getElementById('topRatioVal').textContent = document.getElementById('topRatio').value;
-    document.getElementById('bottomRatioVal').textContent = document.getElementById('bottomRatio').value;
-    document.getElementById('fontSizeVal').textContent = document.getElementById('fontSize').value;
-    document.getElementById('lineHeightVal').textContent = document.getElementById('lineHeight').value;
-  }
-
-  document.getElementById('imageInput').addEventListener('change', (e) => {
-    const files = Array.from(e.target.files);
-    if (!files.length) return;
-
-    loadedImages = [];
-    currentIndex = 0;
-    let loadedCount = 0;
-
-    files.forEach((file, idx) => {
-      const reader = new FileReader();
-      reader.onload = (ev) => {
-        const img = new Image();
-        img.onload = () => {
-          loadedImages[idx] = img;
-          loadedCount++;
-          if (loadedCount === files.length) {
-            updateSlideNav();
-            renderCurrentSlide();
-          }
-        };
-        img.src = ev.target.result;
-      };
-      reader.readAsDataURL(file);
-    });
-  });
-
-  document.getElementById('prevBtn').addEventListener('click', () => {
-    if (loadedImages.length > 1 && currentIndex > 0) {
-      currentIndex--;
-      updateSlideNav();
-      renderCurrentSlide();
+    } catch (err) {
+      alert('오류 발생: ' + err.message);
+    } finally {
+      btn.disabled = false;
+      btn.textContent = '✨ AI로 캐러셀 타이틀 세트 추천받기';
     }
   });
 
-  document.getElementById('nextBtn').addEventListener('click', () => {
-    if (loadedImages.length > 1 && currentIndex < loadedImages.length - 1) {
-      currentIndex++;
-      updateSlideNav();
-      renderCurrentSlide();
-    }
-  });
+  // 캔버스 렌더링 엔진 (그라데이션 & 테두리 지원)
+  function renderToCanvas(targetCanvas, slideObj) {
+    const [cw, ch] = document.getElementById('canvasSize').value.split('x').map(Number);
+    targetCanvas.width = cw;
+    targetCanvas.height = ch;
+    const c = targetCanvas.getContext('2d');
 
-  function updateSlideNav() {
-    const total = loadedImages.length || 1;
-    document.getElementById('slideIndicator').textContent = `${currentIndex + 1} / ${total}`;
+    const bgColor = document.getElementById('bgColor').value;
+    const bgStyle = document.getElementById('bgStyle').value;
+    const topRatio = Number(document.getElementById('topRatio').value) / 100;
+    const bottomRatio = Number(document.getElementById('bottomRatio').value) / 100;
+    const imageFit = document.getElementById('imageFit').value;
+
+    const topH = Math.round(ch * topRatio);
+    const bottomH = Math.round(ch * bottomRatio);
+    const midH = Math.max(10, ch - topH - bottomH);
+
+    // 배경 칠하기
+    c.fillStyle = bgColor;
+    c.fillRect(0, 0, cw, ch);
+
+    const imgObj = slideObj?.img;
+    if (imgObj) {
+      c.save();
+      c.beginPath();
+      c.rect(0, topH, cw, midH);
+      c.clip();
+
+      const iw = imgObj.width;
+      const ih = imgObj.height;
+      const scale = imageFit === 'cover' ? Math.max(cw / iw, midH / ih) : Math.min(cw / iw, midH / ih);
+      const drawW = iw * scale, drawH = ih * scale;
+      c.drawImage(imgObj, (cw - drawW) / 2, topH + (midH - drawH) / 2, drawW, drawH);
+      c.restore();
+    } else {
+      c.fillStyle = '#222';
+      c.fillRect(0, topH, cw, midH);
+      c.fillStyle = '#888';
+      c.font = "700 30px 'Noto Sans KR', sans-serif";
+      c.textAlign = 'center';
+      c.fillText('사진을 추가해 주세요', cw / 2, topH + midH / 2);
+      c.textAlign = 'start';
+    }
+
+    // 배경 스타일 적용 (단색 vs 그라데이션 블렌딩)
+    if (bgStyle === 'solid') {
+      c.fillStyle = bgColor;
+      if (topH > 0) c.fillRect(0, 0, cw, topH);
+      if (bottomH > 0) c.fillRect(0, ch - bottomH, cw, bottomH);
+    } else {
+      // 자연스러운 그라데이션 블렌딩 효과
+      if (topH > 0) {
+        const gradTop = c.createLinearGradient(0, 0, 0, topH);
+        gradTop.addColorStop(0, bgColor);
+        gradTop.addColorStop(1, 'rgba(0,0,0,0)');
+        c.fillStyle = gradTop;
+        c.fillRect(0, 0, cw, topH);
+      }
+      if (bottomH > 0) {
+        const gradBot = c.createLinearGradient(ch - bottomH, ch - bottomH, 0, ch);
+        gradBot.addColorStop(0, 'rgba(0,0,0,0)');
+        gradBot.addColorStop(1, bgColor);
+        c.fillStyle = gradBot;
+        c.fillRect(0, ch - bottomH, cw, bottomH);
+      }
+    }
+
+    // 텍스트 렌더링 (테두리 + 강조색)
+    const textOptions = {
+      fontSize: Number(document.getElementById('fontSize').value),
+      fontWeight: document.getElementById('fontWeight').value,
+      textAlign: document.getElementById('textAlign').value,
+      textColor: document.getElementById('textColor').value,
+      highlightColor: document.getElementById('highlightColor').value,
+      strokeColor: document.getElementById('strokeColor').value,
+    };
+
+    drawRichText(c, slideObj?.topText || '', 0, 0, cw, topH, textOptions);
+    drawRichText(c, slideObj?.bottomText || '', 0, ch - bottomH, cw, bottomH, textOptions);
   }
 
   function parseHighlightSegments(line, baseColor, highlightColor) {
     const regex = /\[(.*?)\]/g;
     const segments = [];
-    let lastIndex = 0;
-    let match;
-
+    let lastIndex = 0, match;
     while ((match = regex.exec(line)) !== null) {
-      if (match.index > lastIndex) {
-        segments.push({ text: line.slice(lastIndex, match.index), color: baseColor });
-      }
+      if (match.index > lastIndex) segments.push({ text: line.slice(lastIndex, match.index), color: baseColor });
       segments.push({ text: match[1], color: highlightColor });
       lastIndex = regex.lastIndex;
     }
-    if (lastIndex < line.length) {
-      segments.push({ text: line.slice(lastIndex), color: baseColor });
-    }
+    if (lastIndex < line.length) segments.push({ text: line.slice(lastIndex), color: baseColor });
     return segments;
   }
 
   function drawRichText(targetCtx, text, boxX, boxY, boxW, boxH, options) {
     if (!text.trim() || boxH <= 0) return;
-
-    const { fontSize, fontWeight, textAlign, lineHeight, textColor, highlightColor } = options;
+    const { fontSize, fontWeight, textAlign, textColor, highlightColor, strokeColor } = options;
     targetCtx.font = `${fontWeight} ${fontSize}px 'Noto Sans KR', sans-serif`;
     targetCtx.textBaseline = 'top';
+    targetCtx.lineWidth = 3;
+    targetCtx.strokeStyle = strokeColor;
 
     const lines = text.split('\n');
-    const stepH = fontSize * lineHeight;
+    const stepH = fontSize * 1.35;
     const totalTextH = fontSize + stepH * (lines.length - 1);
     let currentY = boxY + (boxH - totalTextH) / 2;
 
@@ -786,90 +645,45 @@ ${sourceText}
       const lineW = targetCtx.measureText(fullLineStr).width;
 
       let currentX = boxX + 60;
-      if (textAlign === 'center') {
-        currentX = boxX + (boxW - lineW) / 2;
-      } else if (textAlign === 'right') {
-        currentX = boxX + boxW - lineW - 60;
-      }
+      if (textAlign === 'center') currentX = boxX + (boxW - lineW) / 2;
+      else if (textAlign === 'right') currentX = boxX + boxW - lineW - 60;
 
       segments.forEach(seg => {
         targetCtx.fillStyle = seg.color;
+        targetCtx.strokeText(seg.text, currentX, currentY);
         targetCtx.fillText(seg.text, currentX, currentY);
         currentX += targetCtx.measureText(seg.text).width;
       });
-
       currentY += stepH;
     });
   }
 
-  function renderToCanvas(targetCanvas, imgObj) {
-    const [cw, ch] = document.getElementById('canvasSize').value.split('x').map(Number);
-    targetCanvas.width = cw;
-    targetCanvas.height = ch;
-    const c = targetCanvas.getContext('2d');
-
-    const bgColor = document.getElementById('bgColor').value;
-    const topRatio = Number(document.getElementById('topRatio').value) / 100;
-    const bottomRatio = Number(document.getElementById('bottomRatio').value) / 100;
-    const imageFit = document.getElementById('imageFit').value;
-
-    const topH = Math.round(ch * topRatio);
-    const bottomH = Math.round(ch * bottomRatio);
-    const midH = Math.max(10, ch - topH - bottomH);
-
-    c.fillStyle = bgColor;
-    c.fillRect(0, 0, cw, ch);
-
-    if (imgObj) {
-      c.save();
-      c.beginPath();
-      c.rect(0, topH, cw, midH);
-      c.clip();
-
-      const iw = imgObj.width;
-      const ih = imgObj.height;
-      const scale = imageFit === 'cover'
-        ? Math.max(cw / iw, midH / ih)
-        : Math.min(cw / iw, midH / ih);
-
-      const drawW = iw * scale;
-      const drawH = ih * scale;
-      const drawX = (cw - drawW) / 2;
-      const drawY = topH + (midH - drawH) / 2;
-
-      c.drawImage(imgObj, drawX, drawY, drawW, drawH);
-      c.restore();
-    } else {
-      c.fillStyle = '#222222';
-      c.fillRect(0, topH, cw, midH);
-      c.fillStyle = '#888888';
-      c.font = "700 30px 'Noto Sans KR', sans-serif";
-      c.textAlign = 'center';
-      c.fillText('인스타 주소를 넣거나 Cmd+V로 사진을 붙여넣으세요', cw / 2, topH + midH / 2);
-      c.textAlign = 'start';
-    }
-
-    c.fillStyle = bgColor;
-    if (topH > 0) c.fillRect(0, 0, cw, topH);
-    if (bottomH > 0) c.fillRect(0, ch - bottomH, cw, bottomH);
-
-    const textOptions = {
-      fontSize: Number(document.getElementById('fontSize').value),
-      fontWeight: document.getElementById('fontWeight').value,
-      textAlign: document.getElementById('textAlign').value,
-      lineHeight: Number(document.getElementById('lineHeight').value),
-      textColor: document.getElementById('textColor').value,
-      highlightColor: document.getElementById('highlightColor').value,
-    };
-
-    drawRichText(c, document.getElementById('topText').value, 0, 0, cw, topH, textOptions);
-    drawRichText(c, document.getElementById('bottomText').value, 0, ch - bottomH, cw, bottomH, textOptions);
-  }
-
   function renderCurrentSlide() {
-    const imgObj = loadedImages[currentIndex] || null;
-    renderToCanvas(canvas, imgObj);
+    ensureSlideDataLength(1);
+    renderToCanvas(canvas, slideData[currentIndex]);
   }
+
+  // 클립보드 붙여넣기 (Cmd+V)
+  window.addEventListener('paste', async (e) => {
+    const items = e.clipboardData?.items;
+    if (!items) return;
+    for (const item of items) {
+      if (item.type.startsWith('image/')) {
+        const blob = item.getAsFile();
+        if (blob) {
+          const url = URL.createObjectURL(blob);
+          const img = new Image();
+          img.onload = () => {
+            slideData.push({ img: img, topText: `${slideData.length + 1}번째 카드`, bottomText: '' });
+            currentIndex = slideData.length - 1;
+            syncSlideToUI();
+            showStatus(`📋 클립보드 사진이 추가되었습니다.`);
+          };
+          img.src = url;
+        }
+      }
+    }
+  });
 
   document.getElementById('downloadCurrentBtn').addEventListener('click', () => {
     const link = document.createElement('a');
@@ -879,18 +693,14 @@ ${sourceText}
   });
 
   document.getElementById('downloadZipBtn').addEventListener('click', async () => {
-    if (!loadedImages.length) {
-      alert('먼저 사진을 1장 이상 불러와 주세요.');
-      return;
-    }
+    if (!slideData.length) return alert('사진을 먼저 추가해 주세요.');
     const zip = new JSZip();
     const offCanvas = document.createElement('canvas');
 
-    for (let i = 0; i < loadedImages.length; i++) {
-      renderToCanvas(offCanvas, loadedImages[i]);
+    for (let i = 0; i < slideData.length; i++) {
+      renderToCanvas(offCanvas, slideData[i]);
       const dataUrl = offCanvas.toDataURL('image/png');
-      const base64Data = dataUrl.replace(/^data:image\/png;base64,/, '');
-      zip.file(`carousel_${String(i + 1).padStart(2, '0')}.png`, base64Data, { base64: true });
+      zip.file(`carousel_${String(i + 1).padStart(2, '0')}.png`, dataUrl.replace(/^data:image\/png;base64,/, ''), { base64: true });
     }
 
     const blob = await zip.generateAsync({ type: 'blob' });
@@ -901,7 +711,7 @@ ${sourceText}
   });
 
   document.fonts.ready.then(() => {
-    renderCurrentSlide();
+    syncSlideToUI();
   });
 </script>
 
